@@ -10,56 +10,56 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 290,
-      child: ListView(
-          children: transactions.map((tx) {
-        return Container(
-          width: double.infinity,
-          child: Card(
-            elevation: 5,
-            child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 15,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.deepOrange,
-                        width: 3,
+      height: 300,
+      child: ListView.builder(
+          itemCount: transactions.length,
+          itemBuilder: (ctx, index) {
+            return Card(
+              elevation: 5,
+              child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 15,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.deepOrange,
+                          width: 3,
+                        ),
+                      ),
+                      padding: EdgeInsets.all(10),
+                      child: Text(
+                        '\$${transactions[index].amount}',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Colors.deepOrange),
                       ),
                     ),
-                    padding: EdgeInsets.all(10),
-                    child: Text(
-                      '\$${tx.amount}',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Colors.deepOrange),
-                    ),
-                  ),
-                  Container(
-                    child: Center(
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              tx.title,
-                              style: TextStyle(
-                                fontSize: 30,
-                                decoration: TextDecoration.underline,
+                    Container(
+                      child: Center(
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                transactions[index].title,
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  decoration: TextDecoration.underline,
+                                ),
                               ),
-                            ),
-                            Text(DateFormat("MMM d, yyyy").format(tx.date)),
-                          ]),
+                              Text(DateFormat("MMM d, yyyy")
+                                  .format(transactions[index].date)),
+                            ]),
+                      ),
                     ),
-                  ),
-                ]),
-          ),
-        );
-      }).toList()),
+                  ]
+              ),
+            );
+          }),
     );
   }
 }
