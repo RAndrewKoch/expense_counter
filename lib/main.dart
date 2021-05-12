@@ -19,7 +19,12 @@ class MyHomePage extends StatelessWidget {
   //MyHomePage render
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("Expenses"),
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.add), onPressed: () {}),
+        ],
+      ),
       body: Container(
         child: SingleChildScrollView(
           child: Column(
@@ -43,6 +48,10 @@ class MyHomePage extends StatelessWidget {
                 UserTransactions()
               ]),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {},
       ),
     );
   }
