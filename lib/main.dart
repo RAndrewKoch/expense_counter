@@ -59,7 +59,6 @@ class _MyHomePageState extends State<MyHomePage> {
       amount: 400,
       date: DateTime.now().subtract(Duration(days: 2)),
     )
-
   ];
 
   List<Transaction> get _recentTransactions {
@@ -117,12 +116,18 @@ class _MyHomePageState extends State<MyHomePage> {
               ]),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () => _showNewTransactionForm(context),
       ),
-
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        color: Theme.of(context).primaryColor,
+        child: Container(
+          height: 40,
+        ),
+      ),
     );
   }
 }
