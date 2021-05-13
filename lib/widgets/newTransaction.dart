@@ -1,33 +1,29 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class NewTransaction extends StatelessWidget {
-  // String titleInput;
-  // final String amountInput="";
-
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
+class NewTransaction extends StatefulWidget {
   final Function addTransaction;
 
-  NewTransaction({this.addTransaction});
+  NewTransaction({@required this.addTransaction});
+
+  @override
+  _NewTransactionState createState() => _NewTransactionState();
+}
+
+class _NewTransactionState extends State<NewTransaction> {
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
 
   submitData(BuildContext context) {
     if (titleController.text.isEmpty ||
         amountController.text.isEmpty ||
         double.parse(amountController.text) <= 0) {
-      return showDialog(
-        builder: (_) => AlertDialog(
-            content: Text("Cannot enter transaction, please ensure you have a Title, and a non-negative numerical Amount"),
-          actions: [
-            TextButton(onPressed: ()=>Navigator.pop(context),
-                child: Text("Understood")
-            ),
-          ]
-        ),
-        context: context,
-      );
+      return;
     }
-    addTransaction(titleController.text, double.parse(amountController.text));
+    widget.addTransaction(
+        titleController.text, double.parse(amountController.text));
+
+    Navigator.of(context).pop();
   }
 
   @override
