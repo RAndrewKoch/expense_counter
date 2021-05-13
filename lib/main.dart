@@ -52,7 +52,14 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'Private',
       amount: 79.95,
       date: DateTime.now().subtract(Duration(days: 1)),
+    ),
+    Transaction(
+      id: 't4',
+      title: 'School',
+      amount: 400,
+      date: DateTime.now().subtract(Duration(days: 2)),
     )
+
   ];
 
   List<Transaction> get _recentTransactions {
@@ -115,6 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Icon(Icons.add),
         onPressed: () => _showNewTransactionForm(context),
       ),
+
     );
   }
 }

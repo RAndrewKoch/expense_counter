@@ -1,3 +1,4 @@
+import 'package:expense_counter/widgets/chartBar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -23,10 +24,20 @@ class Chart extends StatelessWidget {
         }
       }
 
+
       print(DateFormat.E().format(weekDay));
       print(totalSum);
 
-      return {'day': DateFormat.E().format(weekDay), 'amount': totalSum};
+      return {
+        'day': DateFormat.E().format(weekDay).substring(0, 1),
+        'amount': totalSum
+      };
+    });
+  }
+
+  double get maxSpending {
+    return groupedTransactionsValues.fold(0.0, (sum, item) {
+      return sum + item['amount'];
     });
   }
 
@@ -35,11 +46,22 @@ class Chart extends StatelessWidget {
     print(groupedTransactionsValues);
     return Container(
       width: 400,
-      height: 200,
       child: Card(
         elevation: 6,
         margin: EdgeInsets.all(20),
-        child: Row(children: <Widget>[]),
+        child: Padding(
+          padding: EdgeInsets.all(10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: groupedTransactionsValues.map((data) {
+            return Flexible(
+              fit: FlexFit.tight,
+              child: ChartBar(label: data['day'],
+                spendingAmount: data['amount'],
+                spendingPctOfTotal: maxSpending==0.0 ? 0.0 : (data['amount'] as double)/maxSpending,),
+            );
+          }).toList()),
+        ),
       ),
     );
   }
