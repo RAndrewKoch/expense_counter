@@ -49,68 +49,74 @@ class _NewTransactionState extends State<NewTransaction> {
     return SingleChildScrollView(
       child: Card(
         elevation: 10,
-        child: Container(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              TextField(
-                controller: titleController,
-                // onChanged: (val){
-                //   titleInput = val;
-                // },
-                decoration: InputDecoration(
-                  labelText: "Title",
+        child: Padding(padding: EdgeInsets.only(
+          top: 10,
+          left: 10,
+          right: 10,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+        ),
+
+
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                TextField(
+                  controller: titleController,
+                  // onChanged: (val){
+                  //   titleInput = val;
+                  // },
+                  decoration: InputDecoration(
+                    labelText: "Title",
+                  ),
+                  onSubmitted: (_) => _submitData(context),
                 ),
-                onSubmitted: (_) => _submitData(context),
-              ),
-              TextField(
-                controller: amountController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  labelText: "Amount",
+                TextField(
+                  controller: amountController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: "Amount",
+                  ),
+                  onSubmitted: (_) => _submitData(context),
                 ),
-                onSubmitted: (_) => _submitData(context),
-              ),
-              Container(
-                height: 80,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: Text(
-                          _selectedDate == null
-                              ? "Date Not Chosen"
-                              : 'Picked Date: ${DateFormat.yMEd().format(_selectedDate)}',
-                          style: Theme.of(context).textTheme.bodyText1,
-                          overflow: TextOverflow.ellipsis,
+                Container(
+                  height: 80,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                            _selectedDate == null
+                                ? "Date Not Chosen"
+                                : 'Picked Date: ${DateFormat.yMEd().format(_selectedDate)}',
+                            style: Theme.of(context).textTheme.bodyText1,
+                            overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      flex:2,
-                      child: TextButton(
-                        style: (ButtonStyle(
-                          textStyle: MaterialStateProperty.all(
-                              Theme.of(context).textTheme.headline6),
-                        )),
-                        onPressed: _presentDatePicker,
-                        child: Text("Choose Date"),
+                      Expanded(
+                        flex:2,
+                        child: TextButton(
+                          style: (ButtonStyle(
+                            textStyle: MaterialStateProperty.all(
+                                Theme.of(context).textTheme.headline6),
+                          )),
+                          onPressed: _presentDatePicker,
+                          child: Text("Choose Date"),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Center(
-                child: ElevatedButton(
-                  child: Text('Add Transaction'),
-                  onPressed: () => _submitData(context),
-                ),
-              )
-            ],
+                Center(
+                  child: ElevatedButton(
+                    child: Text('Add Transaction'),
+                    onPressed: () => _submitData(context),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
   }
 }

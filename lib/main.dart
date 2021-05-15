@@ -6,6 +6,9 @@ import 'widgets/newTransaction.dart';
 import 'widgets/transactionList.dart';
 
 void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations(
+  //     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(MyApp());
 }
 
@@ -65,6 +68,8 @@ class _MyHomePageState extends State<MyHomePage> {
     )
   ];
 
+  bool _showChart = true;
+
   List<Transaction> get _recentTransactions {
     return _transactions.where((tx) {
       return tx.date.isAfter(
@@ -86,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _deleteTransaction(Transaction transactionToDelete){
+  void _deleteTransaction(Transaction transactionToDelete) {
     setState(() {
       _transactions.remove(transactionToDelete);
     });
@@ -102,28 +107,84 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Expenses"),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () => _showNewTransactionForm(context)),
-        ],
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
+    final appBar = AppBar(
+      title: Text("Expenses"),
+      actions: <Widget>[
+        IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () => _showNewTransactionForm(context)),
+      ],
+    );
+
+    final bottomAppBar = BottomAppBar(
+      shape: CircularNotchedRectangle(),
+      color: Theme.of(context).primaryColor,
+      child: Container(
+        height: 40,
       ),
+    );
+
+    final _transactionListWidget = Container(
+      height: (MediaQuery.of(context).size.height -
+          appBar.preferredSize.height -
+          MediaQuery.of(context).padding.top -
+          40) *
+          .80,
+      child: TransactionList(
+        transactions: _transactions,
+        deleteTransaction: _deleteTransaction,
+      ),
+    );
+
+    return Scaffold(
+      appBar: appBar,
       body: Container(
         child: SingleChildScrollView(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Chart(
-                  recentTransactions: _recentTransactions,
-                ),
-                TransactionList(
-                  transactions: _transactions,
-                  deleteTransaction: _deleteTransaction,
-                ),
+                if (isLandscape)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Show Chart'),
+                      Switch(
+                        value: _showChart,
+                        onChanged: (val) {
+                          setState(() {
+                            _showChart = val;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+               if (!isLandscape) Container(
+                 height: (MediaQuery.of(context).size.height -
+                     appBar.preferredSize.height -
+                     MediaQuery.of(context).padding.top -
+                     40) *
+                     .3,
+                 child: Chart(
+                   recentTransactions: _recentTransactions,
+                 ),
+               ),
+               if (!isLandscape) _transactionListWidget,
+               if (isLandscape) _showChart
+                    ? Container(
+                        height: (MediaQuery.of(context).size.height -
+                                appBar.preferredSize.height -
+                                MediaQuery.of(context).padding.top -
+                                40) *
+                            .8,
+                        child: Chart(
+                          recentTransactions: _recentTransactions,
+                        ),
+                      )
+                    : _transactionListWidget
               ]),
         ),
       ),
@@ -132,13 +193,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Icon(Icons.add),
         onPressed: () => _showNewTransactionForm(context),
       ),
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        color: Theme.of(context).primaryColor,
-        child: Container(
-          height: 40,
-        ),
-      ),
+      bottomNavigationBar: bottomAppBar,
     );
   }
 }
