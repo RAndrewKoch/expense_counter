@@ -53,10 +53,8 @@ class _NewTransactionState extends State<NewTransaction> {
           top: 10,
           left: 10,
           right: 10,
-          bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 40,
         ),
-
-
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [

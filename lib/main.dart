@@ -20,15 +20,15 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.amber,
         fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
-              headline6: TextStyle(fontFamily: 'Lemon Friday', fontSize: 20),
-              button: TextStyle(
+              headline6: const TextStyle(fontFamily: 'Lemon Friday', fontSize: 20),
+              button: const TextStyle(
                   color: Colors.white,
                   fontFamily: 'Lemon Friday',
                   fontSize: 15),
             ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
-                headline6: TextStyle(fontFamily: 'Lemon Friday', fontSize: 20),
+                headline6: const TextStyle(fontFamily: 'Lemon Friday', fontSize: 20),
               ),
         ),
       ),
@@ -151,7 +151,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Show Chart'),
+                     const Text('Show Chart'),
                       Switch(
                         value: _showChart,
                         onChanged: (val) {
