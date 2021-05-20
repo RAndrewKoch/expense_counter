@@ -45,7 +45,7 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   final List<Transaction> _transactions = [
     Transaction(
         id: 't1', title: 'New Shoes', amount: 69.99, date: DateTime.now()),
@@ -65,10 +65,28 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'School',
       amount: 400,
       date: DateTime.now().subtract(Duration(days: 2)),
-    )
+    ),
   ];
 
   bool _showChart = true;
+
+  @override
+  void initState(){
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state){
+    print(state);
+  }
+
+  @override
+  dispose(){
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   List<Transaction> get _recentTransactions {
     return _transactions.where((tx) {
@@ -103,6 +121,23 @@ class _MyHomePageState extends State<MyHomePage> {
       builder: (bCtx) {
         return NewTransaction(addTransaction: _addNewTransaction);
       },
+    );
+  }
+
+  Widget buildLandscapeContent(){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text('Show Chart'),
+        Switch(
+          value: _showChart,
+          onChanged: (val) {
+            setState(() {
+              _showChart = val;
+            });
+          },
+        ),
+      ],
     );
   }
 
@@ -147,21 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                if (isLandscape)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                     const Text('Show Chart'),
-                      Switch(
-                        value: _showChart,
-                        onChanged: (val) {
-                          setState(() {
-                            _showChart = val;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
+                if (isLandscape) buildLandscapeContent(),
                if (!isLandscape) Container(
                  height: (MediaQuery.of(context).size.height -
                      appBar.preferredSize.height -

@@ -1,20 +1,52 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+
+
+
 class NewTransaction extends StatefulWidget {
   final Function addTransaction;
 
-  NewTransaction({@required this.addTransaction});
+  NewTransaction({@required this.addTransaction}){
+    print ('constructor NewTransaction()');
+  }
 
   @override
-  _NewTransactionState createState() => _NewTransactionState();
+  _NewTransactionState createState()  {print ('create state NewTransaction Widget');  return _NewTransactionState();}
 }
 
 class _NewTransactionState extends State<NewTransaction> {
   final titleController = TextEditingController();
   final amountController = TextEditingController();
   DateTime _selectedDate;
+
+
+  _NewTransactionState(){
+    print("constructor _NewTransactionState");
+  }
+
+
+  @override
+  void initState()  {
+    print('initState()');
+    super.initState();
+
+
+  }
+
+  @override
+  void didUpdateWidget(NewTransaction oldWidget){
+    print('didUpdateWidget');
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose(){
+    print('dispose()');
+    super.dispose();
+  }
 
   _submitData(BuildContext context) {
     if (titleController.text.isEmpty ||
